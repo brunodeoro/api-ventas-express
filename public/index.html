@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API de Ventas | Documentación</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --panel: #111827;
+        --panel-soft: #1f2937;
+        --card: #f8fafc;
+        --primary: #2563eb;
+        --primary-soft: #dbeafe;
+        --success: #15803d;
+        --success-soft: #dcfce7;
+        --warning: #b45309;
+        --warning-soft: #fef3c7;
+        --danger: #b91c1c;
+        --danger-soft: #fee2e2;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --border: #334155;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 20px 60px;
+      }
+
+      .hero {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 28px;
+        margin-bottom: 24px;
+      }
+
+      .eyebrow {
+        color: #93c5fd;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 12px;
+      }
+
+      h1 {
+        margin: 12px 0 12px;
+        font-size: clamp(2rem, 3vw, 3rem);
+      }
+
+      .base-url {
+        display: inline-block;
+        background: var(--panel-soft);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 14px;
+        color: #dbeafe;
+        font-weight: 700;
+        margin-top: 8px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 24px 0;
+      }
+
+      .card {
+        background: var(--card);
+        color: #0f172a;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16);
+      }
+
+      h2, h3 {
+        margin-top: 0;
+      }
+
+      ul {
+        padding-left: 20px;
+        line-height: 1.7;
+      }
+
+      code, pre {
+        font-family: Consolas, Monaco, monospace;
+      }
+
+      .endpoint {
+        background: #0f172a;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 18px;
+      }
+
+      .method {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 8px;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        margin-right: 10px;
+        letter-spacing: 0.5px;
+      }
+
+      .method.get { background: var(--primary); }
+      .method.post { background: var(--success); }
+
+      .route {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #dbeafe;
+      }
+
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-top: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 14px;
+        font-size: 0.96rem;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f1f5f9;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 5px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .badge.required {
+        background: var(--danger-soft);
+        color: var(--danger);
+      }
+
+      .badge.optional {
+        background: var(--warning-soft);
+        color: var(--warning);
+      }
+
+      pre {
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 14px 16px;
+        border-radius: 10px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+      }
+
+      .status {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+
+      .status.success { background: var(--success-soft); color: var(--success); }
+      .status.error { background: var(--danger-soft); color: var(--danger); }
+      .status.warn { background: var(--warning-soft); color: var(--warning); }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="hero">
+        <div class="eyebrow">Documentación del API</div>
+        <h1>API de Ventas</h1>
+        <p>Servicio para consultar y registrar ventas por producto, cliente y sucursal.</p>
+        <div class="base-url">Base URL: http://localhost:3000/api/v1/ventas</div>
+      </header>
+
+      <section class="grid">
+        <div class="card">
+          <h2>General</h2>
+          <ul>
+            <li>Formato de respuesta: JSON.</li>
+            <li>Autenticación: no requiere token.</li>
+            <li>Headers recomendados: Content-Type: application/json</li>
+            <li>Fecha recomendada: YYYY-MM-DD</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Rutas principales</h2>
+          <ul>
+            <li>GET /api/v1/ventas/consolidado</li>
+            <li>GET /api/v1/ventas/:id</li>
+            <li>POST /api/v1/ventas</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Endpoints</h2>
+
+        <article class="endpoint">
+          <div><span class="method get">GET</span><span class="route">/api/v1/ventas/consolidado</span></div>
+          <p class="meta">Consulta consolidado de ventas por sucursal y año.</p>
+
+          <h3>Parámetros de consulta</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Requerido</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>sucursal</td>
+                <td>string / number</td>
+                <td><span class="badge required">Obligatorio</span></td>
+                <td>Identificador de la sucursal a consultar.</td>
+              </tr>
+              <tr>
+                <td>anio</td>
+                <td>number</td>
+                <td><span class="badge required">Obligatorio</span></td>
+                <td>Año para filtrar el consolidado.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Ejemplo</h3>
+          <pre>GET http://localhost:3000/api/v1/ventas/consolidado?sucursal=1&anio=2026</pre>
+
+          <h3>Respuesta exitosa</h3>
+          <pre>[
+  {
+    "id_venta": 1,
+    "fecha_venta": "2026-01-15",
+    "nombre_cliente": "Ana García",
+    "producto": "Laptop",
+    "cantidad": 2,
+    "monto_venta": 120000
+  }
+]</pre>
+        </article>
+
+        <article class="endpoint">
+          <div><span class="method get">GET</span><span class="route">/api/v1/ventas/:id</span></div>
+          <p class="meta">Obtiene una venta específica por su identificador.</p>
+
+          <h3>Parámetros de ruta</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Requerido</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>id</td>
+                <td>number</td>
+                <td><span class="badge required">Obligatorio</span></td>
+                <td>ID de la venta a consultar.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Ejemplo</h3>
+          <pre>GET http://localhost:3000/api/v1/ventas/1</pre>
+
+          <h3>Respuesta exitosa</h3>
+          <pre>{
+  "status": "success",
+  "data": {
+    "fecha_venta": "15-01-2026",
+    "nombre_cliente": "Ana García",
+    "ciudad_cliente": "Santiago",
+    "producto": "Laptop",
+    "cantidad": 2,
+    "monto_venta": 120000
+  }
+}</pre>
+        </article>
+
+        <article class="endpoint">
+          <div><span class="method post">POST</span><span class="route">/api/v1/ventas</span></div>
+          <p class="meta">Registra una nueva venta en el sistema.</p>
+
+          <h3>Body JSON</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Requerido</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>id_producto</td>
+                <td>number</td>
+                <td><span class="badge required">Obligatorio</span></td>
+                <td>ID del producto vendido.</td>
+              </tr>
+              <tr>
+                <td>id_cliente</td>
+                <td>number</td>
+                <td><span class="badge required">Obligatorio</span></td>
+                <td>ID del cliente que realiza la compra.</td>
+              </tr>
+              <tr>
+                <td>cantidad</td>
+                <td>number</td>
+                <td><span class="badge required">Obligatorio</span></td>
+                <td>Cantidad vendida del producto.</td>
+              </tr>
+              <tr>
+                <td>fecha_venta</td>
+                <td>string</td>
+                <td><span class="badge required">Obligatorio</span></td>
+                <td>Fecha de venta en formato YYYY-MM-DD.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Ejemplo de request</h3>
+          <pre>POST http://localhost:3000/api/v1/ventas
+Content-Type: application/json
+
+{
+  "id_producto": 11,
+  "id_cliente": 7,
+  "cantidad": 3,
+  "fecha_venta": "2026-10-22"
+}</pre>
+
+          <h3>Respuesta exitosa</h3>
+          <pre>{
+  "status": "created",
+  "message": "Venta registrada correctamente",
+  "datos_registrados": {
+    "id_producto": 11,
+    "id_cliente": 7,
+    "cantidad": 3,
+    "fecha_venta": "2026-10-22"
+  }
+}</pre>
+        </article>
+      </section>
+
+      <section class="card" style="margin-top: 28px;">
+        <h2>Códigos de respuesta</h2>
+        <ul>
+          <li><span class="status success">200</span> Consulta exitosa.</li>
+          <li><span class="status success">201</span> Venta creada exitosamente.</li>
+          <li><span class="status warn">400</span> Parámetros faltantes o inválidos.</li>
+          <li><span class="status error">404</span> Recurso no encontrado.</li>
+          <li><span class="status error">500</span> Error interno del servidor o de la base de datos.</li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
