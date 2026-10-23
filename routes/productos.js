@@ -24,20 +24,32 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { nombre, descripcion, precio, stock } = req.body;
+    const {
+      id_categoria,
+      nombre_producto,
+      precio_unitario,
+      costo_proveedor,
+      ubicacion_pasillo
+    } = req.body;
 
-    if (!nombre || !String(nombre).trim() || precio === undefined || precio === null || precio === '' || stock === undefined || stock === null || stock === '') {
+    if (
+      !id_categoria ||
+      !nombre_producto || !String(nombre_producto).trim() ||
+      precio_unitario === undefined || precio_unitario === null || precio_unitario === '' ||
+      costo_proveedor === undefined || costo_proveedor === null || costo_proveedor === ''
+    ) {
       return res.status(400).json({
         error: 'Bad Request',
-        message: 'Los campos nombre, precio y stock son obligatorios'
+        message: 'Los campos id_categoria, nombre_producto, precio_unitario y costo_proveedor son obligatorios'
       });
     }
 
-    const [result] = await pool.query('CALL sp_crear_producto(?, ?, ?, ?)', [
-      String(nombre).trim(),
-      descripcion || '',
-      Number(precio),
-      Number(stock)
+    const [result] = await pool.query('CALL sp_crear_producto(?, ?, ?, ?, ?)', [
+      Number(id_categoria),
+      String(nombre_producto).trim(),
+      Number(precio_unitario),
+      Number(costo_proveedor),
+      ubicacion_pasillo !== undefined && ubicacion_pasillo !== null ? String(ubicacion_pasillo).trim() : null
     ]);
 
     const productoCreado = Array.isArray(result[0]) && result[0].length > 0
@@ -49,10 +61,11 @@ router.post('/', async (req, res) => {
       message: 'Producto registrado correctamente',
       data: productoCreado,
       producto: {
-        nombre: String(nombre).trim(),
-        descripcion: descripcion || '',
-        precio: Number(precio),
-        stock: Number(stock)
+        id_categoria: Number(id_categoria),
+        nombre_producto: String(nombre_producto).trim(),
+        precio_unitario: Number(precio_unitario),
+        costo_proveedor: Number(costo_proveedor),
+        ubicacion_pasillo: ubicacion_pasillo !== undefined && ubicacion_pasillo !== null ? String(ubicacion_pasillo).trim() : null
       }
     });
   } catch (error) {

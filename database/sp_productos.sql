@@ -2,11 +2,11 @@ USE db_ventas_tech;
 
 CREATE TABLE IF NOT EXISTS productos (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    descripcion VARCHAR(255),
-    precio DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL DEFAULT 0,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id_categoria INT NOT NULL,
+    nombre_producto VARCHAR(100) NOT NULL,
+    precio_unitario INT NOT NULL,
+    costo_proveedor INT NOT NULL,
+    ubicacion_pasillo VARCHAR(10)
 );
 
 DROP PROCEDURE IF EXISTS sp_listar_productos;
@@ -17,11 +17,11 @@ CREATE PROCEDURE sp_listar_productos()
 BEGIN
     SELECT
         id_producto,
-        nombre,
-        descripcion,
-        precio,
-        stock,
-        fecha_creacion
+        id_categoria,
+        nombre_producto,
+        precio_unitario,
+        costo_proveedor,
+        ubicacion_pasillo
     FROM productos
     ORDER BY id_producto DESC;
 END $$
@@ -33,23 +33,26 @@ DROP PROCEDURE IF EXISTS sp_crear_producto;
 DELIMITER $$
 
 CREATE PROCEDURE sp_crear_producto(
-    IN p_nombre VARCHAR(100),
-    IN p_descripcion VARCHAR(255),
-    IN p_precio DECIMAL(10,2),
-    IN p_stock INT
+    IN p_id_categoria INT,
+    IN p_nombre_producto VARCHAR(100),
+    IN p_precio_unitario INT,
+    IN p_costo_proveedor INT,
+    IN p_ubicacion_pasillo VARCHAR(10)
 )
 BEGIN
     INSERT INTO productos (
-        nombre,
-        descripcion,
-        precio,
-        stock
+        id_categoria,
+        nombre_producto,
+        precio_unitario,
+        costo_proveedor,
+        ubicacion_pasillo
     )
     VALUES (
-        p_nombre,
-        p_descripcion,
-        p_precio,
-        p_stock
+        p_id_categoria,
+        p_nombre_producto,
+        p_precio_unitario,
+        p_costo_proveedor,
+        p_ubicacion_pasillo
     );
 
     SELECT LAST_INSERT_ID() AS id_producto;
